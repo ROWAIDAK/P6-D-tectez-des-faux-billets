@@ -4,6 +4,7 @@
 # In[2]:
 
 
+
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -18,7 +19,7 @@ def display_circles(pcs, n_comp, pca, axis_ranks, labels=None, label_rotation=0,
         if d2 < n_comp:
 
             # initialisation de la figure
-            #fig, ax = plt.subplots(figsize=(7,6))
+            fig, ax = plt.subplots(figsize=(12,12))
 
             # détermination des limites du graphique
             if lims is not None :
@@ -33,21 +34,20 @@ def display_circles(pcs, n_comp, pca, axis_ranks, labels=None, label_rotation=0,
             if pcs.shape[1] < 30 :
                 plt.quiver(np.zeros(pcs.shape[1]), np.zeros(pcs.shape[1]),
                    pcs[d1,:], pcs[d2,:], 
-                   angles='xy', scale_units='xy', scale=1, color="grey")
-                # (voir la doc : https://matplotlib.org/api/_as_gen/matplotlib.pyplot.quiver.html)
+                   angles='xy', scale_units='xy', scale=1, color="r")
             else:
                 lines = [[[0,0],[x,y]] for x,y in pcs[[d1,d2]].T]
-                ax.add_collection(LineCollection(lines, axes=ax, alpha=.1, color='black'))
+                ax.add_collection(LineCollection(lines, axes=ax, alpha=.1, color='#045c0f'))
             
             # affichage des noms des variables  
             if labels is not None:  
                 for i,(x, y) in enumerate(pcs[[d1,d2]].T):
                     if x >= xmin and x <= xmax and y >= ymin and y <= ymax :
                         plt.text(x, y, labels[i], fontsize='14', ha='center', va='center', 
-                                 rotation=label_rotation, color="#4cb2ff", alpha=0.5)
+                                 rotation=label_rotation, color="#053559", alpha=0.5)
             
             # affichage du cercle
-            circle = plt.Circle((0,0), 1, facecolor='none', edgecolor='#4cb2ff')
+            circle = plt.Circle((0,0), 1, facecolor='none', edgecolor='#291ac9')
             plt.gca().add_artist(circle)
 
             # définition des limites du graphique
@@ -55,15 +55,15 @@ def display_circles(pcs, n_comp, pca, axis_ranks, labels=None, label_rotation=0,
             plt.ylim(ymin, ymax)
         
             # affichage des lignes horizontales et verticales
-            plt.plot([-1, 1], [0, 0], color='grey', ls='--')
-            plt.plot([0, 0], [-1, 1], color='grey', ls='--')
+            plt.plot([-1, 1], [0, 0], color='silver', ls='--')
+            plt.plot([0, 0], [-1, 1], color='silver', ls='--')
 
             # nom des axes, avec le pourcentage d'inertie expliqué
             plt.xlabel('F{} ({}%)'.format(d1+1, round(100*pca.explained_variance_ratio_[d1],1)))
             plt.ylabel('F{} ({}%)'.format(d2+1, round(100*pca.explained_variance_ratio_[d2],1)))
 
             plt.title("Cercle des corrélations (F{} et F{})".format(d1+1, d2+1))
-            #plt.show(block=False)
+            plt.show(block=False)
             
         
 def display_factorial_planes(X_projected, n_comp, pca, axis_ranks, labels=None, alpha=1, illustrative_var=None):
@@ -71,7 +71,7 @@ def display_factorial_planes(X_projected, n_comp, pca, axis_ranks, labels=None, 
         if d2 < n_comp:
             
             # initialisation de la figure       
-            #fig = plt.figure(figsize=(7,6))
+            fig = plt.figure(figsize=(12,12))
         
             # affichage des points
             if illustrative_var is None:
@@ -83,6 +83,7 @@ def display_factorial_planes(X_projected, n_comp, pca, axis_ranks, labels=None, 
                     plt.scatter(X_projected[selected, d1], X_projected[selected, d2], alpha=alpha, label=value)
                 plt.legend()
 
+                
             # affichage des labels des points
             if labels is not None:
                 for i,(x,y) in enumerate(X_projected[:,[d1,d2]]):
@@ -95,29 +96,31 @@ def display_factorial_planes(X_projected, n_comp, pca, axis_ranks, labels=None, 
             plt.ylim([-boundary,boundary])
         
             # affichage des lignes horizontales et verticales
-            plt.plot([-100, 100], [0, 0], color='grey', ls='--')
-            plt.plot([0, 0], [-100, 100], color='grey', ls='--')
+    
+            plt.plot([-100, 100], [0, 0], color='#b30b0e', ls='--')
+            plt.plot([0, 0], [-100, 100], color='#b30b0e', ls='--')
 
             # nom des axes, avec le pourcentage d'inertie expliqué
             plt.xlabel('F{} ({}%)'.format(d1+1, round(100*pca.explained_variance_ratio_[d1],1)))
             plt.ylabel('F{} ({}%)'.format(d2+1, round(100*pca.explained_variance_ratio_[d2],1)))
 
             plt.title("Projection des individus (sur F{} et F{})".format(d1+1, d2+1))
-            #plt.show(block=False)
+            plt.show(block=False)
             
                     
 def display_scree_plot(pca):
     scree = pca.explained_variance_ratio_*100
     plt.figure(figsize=(10,5))
     plt.bar(np.arange(len(scree))+1, scree)
-    plt.plot(np.arange(len(scree))+1, scree.cumsum(),c='#61ba86', marker='o')
+    plt.plot(np.arange(len(scree))+1, scree.cumsum(),c='#8f1828', marker='o')
     plt.xlabel("Rang de l'axe d'inertie",labelpad=20)
     plt.ylabel("Inertie (%)", labelpad=20)
     plt.title("Éboulis des valeurs propres",fontsize=20, pad=30)
     plt.xticks(np.arange(1,7)) #desable for other project
-    #plt.show(block=False)
+    plt.show(block=False)
             
     
+
 def heatmap_corr(i) :
 
     plt.figure(figsize=(15,5))
@@ -127,6 +130,12 @@ def heatmap_corr(i) :
     plt.xticks(rotation=25, ha='right')
     plt.title('Triangle de Corrélation',  fontsize=18, pad=20)
     #plt.show()
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
