@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[5]:
+
+
+#!/usr/bin/env python
+# coding: utf-8
+
 # In[2]:
 
 
@@ -133,7 +139,6 @@ def heatmap_corr(i) :
 
 
 # In[ ]:
-
 
 
 
