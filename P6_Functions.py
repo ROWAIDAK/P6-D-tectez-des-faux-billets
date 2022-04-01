@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[3]:
+
+
+#!/usr/bin/env python
+# coding: utf-8
+
 # In[5]:
 
 
@@ -25,7 +31,7 @@ def display_circles(pcs, n_comp, pca, axis_ranks, labels=None, label_rotation=0,
         if d2 < n_comp:
 
             # initialisation de la figure
-            fig, ax = plt.subplots(figsize=(12,12))
+            fig, ax = plt.subplots(figsize=(8,8))
 
             # détermination des limites du graphique
             if lims is not None :
@@ -69,7 +75,7 @@ def display_circles(pcs, n_comp, pca, axis_ranks, labels=None, label_rotation=0,
             plt.ylabel('F{} ({}%)'.format(d2+1, round(100*pca.explained_variance_ratio_[d2],1)))
 
             plt.title("Cercle des corrélations (F{} et F{})".format(d1+1, d2+1))
-            plt.show(block=False)
+            #plt.show(block=False)
             
         
 def display_factorial_planes(X_projected, n_comp, pca, axis_ranks, labels=None, alpha=1, illustrative_var=None):
@@ -77,7 +83,7 @@ def display_factorial_planes(X_projected, n_comp, pca, axis_ranks, labels=None, 
         if d2 < n_comp:
             
             # initialisation de la figure       
-            fig = plt.figure(figsize=(12,12))
+            fig = plt.figure(figsize=(10,10))
         
             # affichage des points
             if illustrative_var is None:
@@ -111,7 +117,7 @@ def display_factorial_planes(X_projected, n_comp, pca, axis_ranks, labels=None, 
             plt.ylabel('F{} ({}%)'.format(d2+1, round(100*pca.explained_variance_ratio_[d2],1)))
 
             plt.title("Projection des individus (sur F{} et F{})".format(d1+1, d2+1))
-            plt.show(block=False)
+            #plt.show(block=False)
             
                     
 def display_scree_plot(pca):
@@ -123,13 +129,13 @@ def display_scree_plot(pca):
     plt.ylabel("Inertie (%)", labelpad=20)
     plt.title("Éboulis des valeurs propres",fontsize=20, pad=30)
     plt.xticks(np.arange(1,7)) #desable for other project
-    plt.show(block=False)
+    #plt.show(block=False)
             
     
 
 def heatmap_corr(i) :
 
-    plt.figure(figsize=(15,5))
+    plt.figure(figsize=(10,5))
     mask = np.zeros_like(i.corr())
     mask[np.triu_indices_from(mask)] = True
     sns.heatmap(i.corr(), mask=mask, vmin=-1, vmax=1, annot=True, cmap='BrBG')
@@ -139,6 +145,12 @@ def heatmap_corr(i) :
 
 
 # In[ ]:
+
+
+
+
+# In[ ]:
+
 
 
 
