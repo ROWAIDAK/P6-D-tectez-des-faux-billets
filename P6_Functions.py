@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[ ]:
+
+
+#!/usr/bin/env python
+# coding: utf-8
+
 # In[3]:
 
 
@@ -144,6 +150,49 @@ def heatmap_corr(i) :
     #plt.show()
 
 
+    
+
+def detecteur_billet(mydata):
+    """ Programme de détection de faux billets à partir d'un fichier .csv
+        ici 'mydata' 
+    """
+    
+    # Chargement et préparation des données 
+    df = pd.read_csv(mydata)
+    X = df.copy()
+    X = X.iloc[:, :-1]
+    
+    # Centrage/réduction des données (éviter les écarts d'échelle, les données prendront toutes la même importance)
+    std_scale = preprocessing.StandardScaler().fit(X)
+    X_scaled = std_scale.transform(X)
+    
+    # Récupération du modèle de Régression Logistique 'lr'
+    with open('datas/model.pkl', 'rb') as f:
+        my_unpickler = pickle.Unpickler(f)
+        lr = my_unpickler.load()
+    
+    # Utilisation du modèle de prédiction 'lr'
+    probability = lr.predict_proba(X_scaled)[:, 1]
+    
+    # Probabilités des billets établies 
+    proba = pd.Series(probability.round(3), name='%value')
+    
+    # Intégration des probabilités dans le jeu de données
+    df_final = pd.concat([df, proba], axis=1)
+    
+    # Résultats de la classification prédictive, selon une probabilité  supérieure ou égale à 0.5 :
+    resultat = []
+    for i in df_final['%value'] >= .5:
+        if i is True :
+            resultat.append('Vrai Billet')
+        else :
+            resultat.append('Faux Billet')
+
+    df_final['resultat'] = resultat
+
+    return df_final
+    
+        
 # In[ ]:
 
 
